@@ -15,15 +15,13 @@ const encrypt = async (req, res) => {
       privateKeyEncoding: {
         type: 'pkcs8',
         format: 'pem',
-        cipher: 'aes-256-cbc',
-        passphrase: process.env.PASSPHRASE
+        // cipher: 'aes-256-cbc',
+        // passphrase: process.env.PASSPHRASE
       }
     });
 
     this.publicKey = publicKey;
     this.privateKey = privateKey;
-
-    console.log(this.publicKey, this.privateKey);
 
     const buffer = Buffer.from(stringToEncrypt, 'utf8');
     const encrypted = crypto.publicEncrypt(publicKey, buffer);
@@ -36,8 +34,6 @@ const encrypt = async (req, res) => {
 };
 
 const decrypt = (req, res) => {
-  console.log(this.publicKey, this.privateKey);
-
   const stringToDecrypt = req.body.string;
   const buffer = Buffer.from(stringToDecrypt, 'base64');
   const decrypted = crypto.privateDecrypt(this.privateKey, buffer)
