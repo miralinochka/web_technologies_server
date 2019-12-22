@@ -30,16 +30,22 @@ const encrypt = async (req, res) => {
     res.send(encryptedString);
   } catch(err) {
     console.error(err);
+    res.send('Error! Try again.');
   }
 };
 
 const decrypt = (req, res) => {
   const stringToDecrypt = req.body.string;
-  const buffer = Buffer.from(stringToDecrypt, 'base64');
-  const decrypted = crypto.privateDecrypt(this.privateKey, buffer)
-  const decryptedString = decrypted.toString();
-
-  res.send(decryptedString);
+  try {
+    const buffer = Buffer.from(stringToDecrypt, 'base64');
+    const decrypted = crypto.privateDecrypt(this.privateKey, buffer)
+    const decryptedString = decrypted.toString();
+  
+    res.send(decryptedString);
+  } catch(err) {
+    console.error(err);
+    res.send('Error! Can not decrypt your text. Please, be sure that you entered encrypted with RSA text.');
+  }
 };
 
 module.exports = {
